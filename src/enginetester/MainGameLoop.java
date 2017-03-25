@@ -26,6 +26,8 @@ public class MainGameLoop {
 
 		RawModel model = OBJLoader.loadObjModel("stall", loader);
 		ModelTexture texture = new ModelTexture(loader.loadTexture("stallTexture"));
+		texture.setShineDamper(10);
+		texture.setReflectivity(5);
 		TexturedModel texturedModel = new TexturedModel(model, texture);
 		Entity entity = new Entity(texturedModel, new Vector3f(0, -2, -25), 0, 0, 0, 1);
 
