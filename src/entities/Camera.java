@@ -46,6 +46,11 @@ public class Camera {
 		} else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 			position.z -= (float) Math.sin(Math.toRadians(yaw)) * speed;
 			position.x -= (float) Math.cos(Math.toRadians(yaw)) * speed;
+		} 
+		if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+			position.y += 2.5; 
+		} else if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+			position.y -= 2.5; 
 		}
 	}
 
