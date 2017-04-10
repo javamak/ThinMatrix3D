@@ -26,14 +26,26 @@ public class MainGameLoop {
 		Loader loader = new Loader();
 
 		RawModel model = OBJLoader.loadObjModel("tree", loader);
+		RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
+		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);
 
 		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
+		TexturedModel grassTModel = new TexturedModel(grassModel, new ModelTexture(loader.loadTexture("grassTexture")));
+		grassTModel.getTexture().setHasTransparency(true);
+		grassTModel.getTexture().setUseFakeLighting(true);
+		TexturedModel fernTModel = new TexturedModel(fernModel, new ModelTexture(loader.loadTexture("fern")));
+		fernTModel.getTexture().setHasTransparency(true);
+		fernTModel.getTexture().setUseFakeLighting(true);
 
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
 		for (int i = 0; i < 500; i++) {
 			entities.add(new Entity(staticModel,
 					new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 3));
+			entities.add(new Entity(grassTModel,
+					new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
+			entities.add(new Entity(fernTModel,
+					new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
 		}
 
 		Light light = new Light(new Vector3f(20000, 20000, 2000), new Vector3f(1, 1, 1));
