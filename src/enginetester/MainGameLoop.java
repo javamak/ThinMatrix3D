@@ -10,6 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import entities.Player;
 import models.RawModel;
 import models.TexturedModel;
 import objConverter.ModelData;
@@ -54,7 +55,7 @@ public class MainGameLoop {
 		TexturedModel fernTModel = new TexturedModel(fernModel, new ModelTexture(loader.loadTexture("fern")));
 		fernTModel.getTexture().setHasTransparency(true);
 		fernTModel.getTexture().setUseFakeLighting(true);
-
+		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
 		for (int i = 0; i < 500; i++) {
@@ -74,9 +75,17 @@ public class MainGameLoop {
 		Camera camera = new Camera();
 		MasterRenderer renderer = new MasterRenderer();
 
+		
+		data = OBJFileLoader.loadOBJ("bunny");
+		RawModel bunny = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
+		TexturedModel bunnyModel = new TexturedModel(bunny, new ModelTexture(loader.loadTexture("white")));
+		Player player = new Player(bunnyModel, new Vector3f(100, 0, -50), 0, 0, 0, 1);
+		
 		while (!Display.isCloseRequested()) {
 			camera.move();
-
+			player.move();
+			renderer.processEntity(player);
+			
 			renderer.processTerrain(terrain);
 			renderer.processTerrain(terrain2);
 			for (Entity entity : entities) {
