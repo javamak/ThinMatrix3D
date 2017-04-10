@@ -12,10 +12,11 @@ import entities.Entity;
 import entities.Light;
 import models.RawModel;
 import models.TexturedModel;
+import objConverter.ModelData;
+import objConverter.OBJFileLoader;
 import renderengine.DisplayManager;
 import renderengine.Loader;
 import renderengine.MasterRenderer;
-import renderengine.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
 
@@ -25,11 +26,14 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 
-		RawModel model = OBJLoader.loadObjModel("tree", loader);
-		RawModel grassModel = OBJLoader.loadObjModel("grassModel", loader);
-		RawModel fernModel = OBJLoader.loadObjModel("fern", loader);
+		ModelData data = OBJFileLoader.loadOBJ("tree");
+		RawModel treeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
+		data = OBJFileLoader.loadOBJ("grassModel");
+		RawModel grassModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
+		data = OBJFileLoader.loadOBJ("fern");
+		RawModel fernModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 
-		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
+		TexturedModel staticModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("tree")));
 		TexturedModel grassTModel = new TexturedModel(grassModel, new ModelTexture(loader.loadTexture("grassTexture")));
 		grassTModel.getTexture().setHasTransparency(true);
 		grassTModel.getTexture().setUseFakeLighting(true);
