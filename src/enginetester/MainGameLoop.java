@@ -72,7 +72,6 @@ public class MainGameLoop {
 		Terrain terrain = new Terrain(-1, -1, loader, texturePack, blendMap);
 		Terrain terrain2 = new Terrain(0, -1, loader, texturePack, blendMap);
 
-		Camera camera = new Camera();
 		MasterRenderer renderer = new MasterRenderer();
 
 		
@@ -80,6 +79,7 @@ public class MainGameLoop {
 		RawModel bunny = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 		TexturedModel bunnyModel = new TexturedModel(bunny, new ModelTexture(loader.loadTexture("white")));
 		Player player = new Player(bunnyModel, new Vector3f(100, 0, -50), 0, 0, 0, 1);
+		Camera camera = new Camera(player);
 		
 		while (!Display.isCloseRequested()) {
 			camera.move();
