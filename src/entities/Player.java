@@ -61,7 +61,7 @@ public class Player extends Entity{
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
 			this.currentTurnSpeed = TURN_SPEED;
 		} else if(Keyboard.isKeyDown(Keyboard.KEY_A)) { 
-			this.currentTurnSpeed = TURN_SPEED;
+			this.currentTurnSpeed = -TURN_SPEED;
 		} else {
 			this.currentTurnSpeed = 0;
 		}
