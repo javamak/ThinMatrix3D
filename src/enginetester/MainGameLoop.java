@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import guis.GuiRenderer;
+import guis.GuiTexture;
 import models.RawModel;
 import models.TexturedModel;
 import objConverter.ModelData;
@@ -95,6 +98,13 @@ public class MainGameLoop {
 		Player player = new Player(bunnyModel, new Vector3f(100, 0, -50), 0, 0, 0, .6f);
 		Camera camera = new Camera(player);
 
+		List<GuiTexture> guis = new ArrayList<>();
+		GuiTexture gui = new GuiTexture(loader.loadTexture("socuwan"), new Vector2f(0.5f, .5f), new Vector2f(0.25f, 0.25f));
+		guis.add(gui);
+		guis.add(new GuiTexture(loader.loadTexture("health"), new Vector2f(0.3f, .7f), new Vector2f(0.25f, 0.25f)));
+		
+		GuiRenderer guiRenderer = new GuiRenderer(loader);
+		
 		while (!Display.isCloseRequested()) {
 			camera.move();
 			player.move(terrain);
@@ -105,9 +115,12 @@ public class MainGameLoop {
 				renderer.processEntity(entity);
 			}
 			renderer.render(light, camera);
+			
+			guiRenderer.render(guis);
+			
 			DisplayManager.updateDisplay();
 		}
-
+		guiRenderer.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
