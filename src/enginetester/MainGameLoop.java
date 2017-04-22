@@ -53,9 +53,14 @@ public class MainGameLoop {
 		data = OBJFileLoader.loadOBJ("fern");
 		RawModel fernModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
 				data.getIndices());
-
+		data = OBJFileLoader.loadOBJ("lamp");
+		RawModel lampModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
+				data.getIndices());
+		
+		
 		TexturedModel staticModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("tree")));
 		TexturedModel grassTModel = new TexturedModel(grassModel, new ModelTexture(loader.loadTexture("grassTexture")));
+		TexturedModel lamp = new TexturedModel(lampModel, new ModelTexture(loader.loadTexture("lamp")));
 		grassTModel.getTexture().setHasTransparency(true);
 		grassTModel.getTexture().setUseFakeLighting(true);
 		ModelTexture fernMT = new ModelTexture(loader.loadTexture("fern"));
@@ -64,7 +69,7 @@ public class MainGameLoop {
 		fernMT.setNumberOfRows(2);
 		TexturedModel fernTModel = new TexturedModel(fernModel, fernMT);
 
-		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMap");
+		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
@@ -88,10 +93,15 @@ public class MainGameLoop {
 		}
 
 		List<Light> lights = new ArrayList<>();
-		lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(1, 1, 1)));
-		lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
-		lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+		lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
+		lights.add(new Light(new Vector3f(185, 10, -293), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(370, 17, -300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(293, 7, -305), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
 
+		entities.add(new Entity(lamp, new Vector3f(185, -4.7f, -293), 0, 0, 0, 1));
+		entities.add(new Entity(lamp, new Vector3f(370, 4.2f, -300), 0, 0, 0, 1));
+		entities.add(new Entity(lamp, new Vector3f(293, -6.8f, -305), 0, 0, 0, 1));
+		
 		MasterRenderer renderer = new MasterRenderer();
 
 		data = OBJFileLoader.loadOBJ("bunny");
