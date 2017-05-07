@@ -80,4 +80,8 @@ public class Entity {
 		return scale;
 	}
 
+	public void setPosition(Vector3f position) {
+		this.position = position;
+	}
+
 }
